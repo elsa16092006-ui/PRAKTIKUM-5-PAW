@@ -1,50 +1,163 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'Toko Laravel')</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-@section('title', 'Daftar')
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f4f5f7;
+            color: #111827;
+        }
 
-@section('content')
-<div class="card auth-card">
-    <span class="eyebrow">MULAI DARI SINI</span>
-    <h1>Buat akun belanja</h1>
+        .navbar {
+            background-color: #111827;
+            color: #ffffff;
+            padding: 14px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-    <form method="POST" action="{{ route('register.store') }}">
-        @csrf
+        .navbar-brand {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
 
-        <div class="form-group">
-            <label for="name">Nama lengkap</label>
-            <input id="name" type="text" name="name" value="{{ old('name') }}" maxlength="120" autocomplete="name" required>
-            @error('name')
-                <small class="text-danger">{{ $message }}</small>
-            @enderror
-        </div>
+        .navbar-nav {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
 
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input id="email" type="email" name="email" value="{{ old('email') }}" autocomplete="username" required>
-            @error('email')
-                <small class="text-danger">{{ $message }}</small>
-            @enderror
-        </div>
+        .navbar-nav a {
+            color: #f9fafb;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
 
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input id="password" type="password" name="password" minlength="8" autocomplete="new-password" required>
-            <span class="muted">Minimal 8 karakter.</span>
-            @error('password')
-                <small class="text-danger">{{ $message }}</small>
-            @enderror
-        </div>
+        .navbar-nav a:hover {
+            text-decoration: underline;
+        }
 
-        <div class="form-group">
-            <label for="password_confirmation">Ulangi password</label>
-            <input id="password_confirmation" type="password" name="password_confirmation" autocomplete="new-password" required>
-        </div>
+        .container {
+            max-width: 1100px;
+            margin: 32px auto;
+            padding: 0 20px;
+        }
 
-        <button type="submit" class="btn">Buat Akun</button>
-    </form>
+        .card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 28px 32px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+        }
 
-    <p class="muted" style="margin-top:20px">
-        Sudah punya akun? <a href="{{ route('login') }}"><strong>Masuk</strong></a>
-    </p>
-</div>
-@endsection
+        .auth-card {
+            max-width: 480px;
+            margin: 24px auto;
+        }
+
+        .eyebrow {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            color: #6b7280;
+            margin-bottom: 6px;
+        }
+
+        h1 {
+            margin: 0 0 20px;
+            font-size: 1.75rem;
+            color: #111827;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #1f2937;
+        }
+
+        .form-group input {
+            display: block;
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: #111827;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #111827;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #111827;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            padding: 11px 18px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #1f2937;
+        }
+
+        .muted {
+            color: #6b7280;
+            font-size: 0.85rem;
+        }
+
+        .helper-text {
+            display: block;
+            margin-top: 5px;
+        }
+
+        .text-danger {
+            display: block;
+            margin-top: 5px;
+            color: #dc2626;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <a href="{{ url('/') }}" class="navbar-brand">Toko Laravel</a>
+        <nav class="navbar-nav">
+            <a href="{{ url('/') }}">Produk</a>
+            @if (Route::has('login'))
+                <a href="{{ route('login') }}">Login</a>
+            @endif
+            @if (Route::has('register'))
+                <a href="{{ route('register') }}">Register</a>
+            @endif
+        </nav>
+    </header>
+
+    <main class="container">
+        @yield('content')
+    </main>
+</body>
+</html>
