@@ -1,59 +1,50 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'ruangbelanja.')</title>
-    
-    <!-- Ini yang menghubungkan file eksternal css.txt (store.css) kamu ke tampilan web -->
-    <link rel="stylesheet" href="{{ asset('css/store.css') }}">
-</head>
-<body>
-<nav>
-    <div class="container nav">
-        <a class="brand" href="{{ route('shop.index') }}">ruangbelanja.</a>
-        <a href="{{ route('shop.index') }}">Produk</a>
-        
-        @auth
-            @if(auth()->user()->role === 'customer')
-                <a href="{{ route('cart.index') }}">Keranjang</a>
-                <a href="{{ route('orders.index') }}">Pesanan</a>
-            @else
-                <a href="{{ route('admin.dashboard') }}">Admin</a>
-            @endif
-            
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button class="btn-light" type="submit">Logout</button>
-            </form>
-        @else
-            <a href="{{ route('login') }}">Masuk</a>
-            <a href="{{ route('register') }}">Daftar</a>
-        @endauth
-    </div>
-</nav>
-<main>
-    <div class="container">
-        @if(session('success'))
-            <div class="alert">{{ session('success') }}</div>
-        @endif
-        
-        @if(session('error'))
-            <div class="alert error">{{ session('error') }}</div>
-        @endif
-        
-        @if($errors->any())
-            <div class="alert error">
-                <ul>
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-        
-        @yield('content')
-    </div>
-</main>
-</body>
-</html>
+@extends('layouts.app')
+
+@section('title', 'Daftar')
+
+@section('content')
+<div class="card auth-card">
+    <span class="eyebrow">MULAI DARI SINI</span>
+    <h1>Buat akun belanja</h1>
+
+    <form method="POST" action="{{ route('register.store') }}">
+        @csrf
+
+        <div class="form-group">
+            <label for="name">Nama lengkap</label>
+            <input id="name" type="text" name="name" value="{{ old('name') }}" maxlength="120" autocomplete="name" required>
+            @error('name')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" type="email" name="email" value="{{ old('email') }}" autocomplete="username" required>
+            @error('email')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input id="password" type="password" name="password" minlength="8" autocomplete="new-password" required>
+            <span class="muted">Minimal 8 karakter.</span>
+            @error('password')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
+        </div>
+
+        <div class="form-group">
+            <label for="password_confirmation">Ulangi password</label>
+            <input id="password_confirmation" type="password" name="password_confirmation" autocomplete="new-password" required>
+        </div>
+
+        <button type="submit" class="btn">Buat Akun</button>
+    </form>
+
+    <p class="muted" style="margin-top:20px">
+        Sudah punya akun? <a href="{{ route('login') }}"><strong>Masuk</strong></a>
+    </p>
+</div>
+@endsection
