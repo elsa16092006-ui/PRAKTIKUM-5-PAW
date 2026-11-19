@@ -66,6 +66,9 @@
                 autocomplete="new-password"
                 required
             >
+            @error('password_confirmation')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
         </div>
 
         <button type="submit" class="btn">Buat Akun</button>
